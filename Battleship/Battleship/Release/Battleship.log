@@ -1,0 +1,25 @@
+﻿  Battlefield.cpp
+Battlefield.cpp(3): error C2533: Battlefield::{ctor}: конструкторы не разрешены для возвращаемого типа
+Battlefield.cpp(170): warning C4309: return: усечение константного значения
+Battlefield.cpp(172): warning C4309: return: усечение константного значения
+Battlefield.cpp(174): warning C4309: return: усечение константного значения
+Battlefield.cpp(176): warning C4309: return: усечение константного значения
+Battlefield.cpp(178): warning C4309: return: усечение константного значения
+Battlefield.cpp(180): warning C4309: return: усечение константного значения
+  BattleshipMain.cpp
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\WaitTime.h(6): error C2236: непредвиденный токен "class". Возможно, отсутствует ";".
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\WaitTime.h(7): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\WaitTime.h(7): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\GameLogic.h(17): error C3646: gameTime: неизвестный спецификатор переопределения
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\GameLogic.h(17): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+  GameLogic.cpp
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\WaitTime.h(6): error C2236: непредвиденный токен "class". Возможно, отсутствует ";".
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\WaitTime.h(7): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\WaitTime.h(7): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\GameLogic.h(17): error C3646: gameTime: неизвестный спецификатор переопределения
+c:\users\татьяна\documents\visual studio 2015\projects\battleship\battleship\GameLogic.h(17): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+GameLogic.cpp(18): warning C4309: =: усечение константного значения
+GameLogic.cpp(24): warning C4305: =: усечение из "int" к "char"
+GameLogic.cpp(24): warning C4309: =: усечение константного значения
+GameLogic.cpp(30): warning C4309: =: усечение константного значения
+GameLogic.cpp(41): warning C4838: преобразование из "int" в "SHORT" требует сужающего преобразования

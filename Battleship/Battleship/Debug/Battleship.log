@@ -1,0 +1,9 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppClean.targets(75,5): warning : Отказано в доступе по пути "C:\Users\Татьяна\documents\visual studio 2015\Projects\Battleship\Debug\Battleship.exe".
+  WaitTime.cpp
+  Ship.cpp
+  Position.cpp
+  GameLogic.cpp
+  BattleshipMain.cpp
+  Battlefield.cpp
+  Создание кода...
+LINK : fatal error LNK1104: не удается открыть файл "C:\Users\Татьяна\documents\visual studio 2015\Projects\Battleship\Debug\Battleship.exe"
