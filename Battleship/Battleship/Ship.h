@@ -15,7 +15,7 @@ public:
 	Ship(int);
 	~Ship();
 
-	void setShip(int,int,int);// установка корабля 
+	void setShip(int x,int y,int direction);// установка корабля 
 	int getSize();
 };
 

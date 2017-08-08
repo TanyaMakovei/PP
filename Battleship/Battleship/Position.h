@@ -10,7 +10,7 @@ public:
 	Position();
 	~Position();
 
-	void setPosition(int,int);//изменение позиции курсора, \\отправка в массив при энтере
+	void setPosition(int axis,int shift);//изменение позиции курсора, \\отправка в массив при энтере
 	
 	
 };

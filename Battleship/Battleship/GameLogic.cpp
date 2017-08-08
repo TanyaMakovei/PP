@@ -7,27 +7,27 @@ char GameLogic::Buf[BUF_HEIGHT][BUF_WIDTH];
 
 GameLogic::GameLogic()
 {
-	player1.setStatus(1);
-	player2.setStatus(0);
+	player1.setStatus(HUMAN);
+	player2.setStatus(COMPUTER);
 	int i, j;
 
 	//"└──────────────────────┘"
-	for ( i=0;i<BUF_HEIGHT;i++)
+	for (i = 0;i < BUF_HEIGHT;i++)
 	{
-		for ( j=0; j<BUF_WIDTH_F;j++) {
+		for (j = 0; j < BUF_WIDTH_F;j++) {
 			Buf[i][j] = 0xb0;
 		}
 	}
 	for (i = 0;i < BUF_HEIGHT;i++)
 	{
 		for (j = 0; j < BUF_SHIFT;j++) {
-			Buf[i][j+ BUF_WIDTH_F] = 0x2504;
+			Buf[i][j + BUF_WIDTH_F] = 0x2504;
 		}
 	}
 	for (i = 0;i < BUF_HEIGHT;i++)
 	{
 		for (j = 0; j < BUF_WIDTH_F;j++) {
-			Buf[i][j + BUF_WIDTH_F+BUF_SHIFT] = 0xb0;
+			Buf[i][j + BUF_WIDTH_F + BUF_SHIFT] = 0xb0;
 		}
 	}
 
@@ -68,65 +68,111 @@ void GameLogic::printStatistic()
 void GameLogic::doAction(int i_input)
 {
 	if (player1.getMode() == ShipArrangement) {
-		
-		switch (i_input) {
-		case 'w':
-			cursor.setPosition(0, -1);//up
-			break;
-		case 's':
-			cursor.setPosition(0, 1);//down
-			break;
-		case 'a':
-			cursor.setPosition(1, -1);//left
-			break;
-		case 'd':
-			cursor.setPosition(1, 1);//right
-			break;
-		case 13:
-			player1.setShip(cursor.position.getX(), cursor.position.getY());//enter
-			break;
-		case 32:
-			player1.changeDirection();			//space
-			break;
-		default:
-			break;
-		}
-		
-		
+		doArrangmentAction(i_input);
 	}
 	else if (player1.getMode() == Battle) {
 
-		switch (i_input) {
-		case 38:
-			cursor.setPosition(1, -1);//up
-			break;
-		case 40:
-			cursor.setPosition(1, 1);//down
-			break;
-		case 37:
-			cursor.setPosition(0, -1);//left
-			break;
-		case 39:
-			cursor.setPosition(0, 1);//right
-			break;
-		case 13:
-			//enter
-			break;
-		default:
-
-			break;
-		}
+		doBattleAction(i_input);
 	}
 }
 
-void GameLogic::checkHit(int x, int y, Battlefield playerA, Battlefield playerB)
+void GameLogic::doArrangmentAction(int i_input)
 {
-	if (playerB.getMyPoint(x, y) == 0) {
-		playerA.setEnemyPoint(x, y, 5);
+	switch (i_input) {
+	case KEY_W:
+		cursor.setPosition(0, -1);//up
+		break;
+	case KEY_S:
+		cursor.setPosition(0, 1);//down
+		break;
+	case KEY_A:
+		cursor.setPosition(1, -1);//left
+		break;
+	case KEY_D:
+		cursor.setPosition(1, 1);//right
+		break;
+	case ENTER:
+		player1.setShip(cursor.position.getX(), cursor.position.getY());
+		break;
+	case SPACE:
+		player1.changeDirection();
+		break;
+	default:
+		break;
+	}
+}
+
+void GameLogic::doBattleAction(int i_input)
+{
+	switch (i_input) {
+	case KEY_W:
+		cursor.setPosition(0, -1);//up
+		break;
+	case KEY_S:
+		cursor.setPosition(0, 1);//down
+		break;
+	case KEY_A:
+		cursor.setPosition(1, -1);//left
+		break;
+	case KEY_D:
+		cursor.setPosition(1, 1);//right
+		break;
+	case ENTER:
+
+		break;
+	default:
+		break;
+	}
+}
+
+void GameLogic::checkHit(int x, int y, Battlefield playerAttac, Battlefield playerDefense)
+{
+	if (EMPTY == playerDefense.getMyPoint(x, y)) {
+		playerAttac.setEnemyPoint(x, y, MISS);
 		//промах
 	}
-	else if (playerB.getMyPoint(x, y) == 1) {
+	else if (ALIVE == playerDefense.getMyPoint(x, y)) {
 
+	}
+}
+
+void GameLogic::drawCursor(Battlefield player)
+{
+	int direction = player.getDirection();
+
+	if (player.getCountShip() == 0)
+	{
+		drawCursorByType(SIZE_4TYPE_SHIP, direction);
+	}
+	else if (player.getCountShip() > 0 && player.getCountShip() <= 2)
+	{
+		drawCursorByType(SIZE_3TYPE_SHIP, direction);
+	}
+	else if (player.getCountShip() > 2 && player.getCountShip() <= 5)
+	{
+		drawCursorByType(SIZE_2TYPE_SHIP, direction);
+	}
+	else if (player.getCountShip() > 5 && player.getCountShip() <= 9)
+	{
+		drawCursorByType(SIZE_1TYPE_SHIP, direction);
+
+	}
+}
+
+void GameLogic::drawCursorByType(int sizeTypeShip, int direction)
+{
+	if (HORIZONTAL == direction)
+	{
+		for (int l = 0; l < sizeTypeShip * 2; l++) {
+			Buf[cursor.position.getX()][cursor.position.getY() + l] = 0xdb;
+		}
+	}
+	else if (VERTICAL == direction)
+	{
+		for (int l = 0; l < sizeTypeShip; l++) {
+			Buf[cursor.position.getX() + l][cursor.position.getY()] = 0xdb;
+			Buf[cursor.position.getX() + l][cursor.position.getY() + 1] = 0xdb;
+		}
 	}
 }
 
@@ -135,75 +181,28 @@ void GameLogic::checkHit(int x, int y, Battlefield playerA, Battlefield playerB)
 void GameLogic::drawFrame()
 {
 	Battlefield player;
-	//clear_terminal();//system("cls");
-	if (player1.getStatus() == 1) {
+	
+	if (player1.getStatus() == HUMAN) 
+	{
 		player = player1;
 	}
-	else if (player2.getStatus() == 1) {
+	else if (player2.getStatus() == HUMAN) 
+	{
 		player = player2;
 	}
-	
+
 	for (int x = 0;x < BUF_HEIGHT;x++)
 	{
-		for (int y = 0; y< BUF_WIDTH_F;y=y+2) {
-			Buf[x][y]=player.drawFrame(x, y/2);
-			Buf[x][y+1] = player.drawFrame(x, y / 2);
+		for (int y = 0; y < BUF_WIDTH_F;y = y + 2) 
+		{
+			Buf[x][y] = player.drawFrame(x, y / 2);
+			Buf[x][y + 1] = player.drawFrame(x, y / 2);
 		}
 	}
-// 	if (player.getDirection() == 0) {
-// 		if (countShip == 0) {
-// 			for (int l = 0; l < 8; l++) {
-// 				Buf[cursor.position.getX()][cursor.position.getY()+l] = 0xdb;
-// 			}
-// 		}
-// 		else if (countShip > 0 && countShip <= 2) {
-// 			for (int l = 0; l < 6; l++) {
-// 				Buf[cursor.position.getX()][cursor.position.getY() + l] = 0xdb;
-// 			}
-// 
-// 		}
-// 		else if (countShip > 2 && countShip <= 5) {
-// 			for (int l = 0; l < 4; l++) {
-// 				Buf[cursor.position.getX()][cursor.position.getY() + l] = 0xdb;
-// 			}
-// 		}
-// 		else if (countShip > 5 && countShip <= 9) {
-// 			Buf[cursor.position.getX() ][cursor.position.getY()] = 0xdb;
-// 			Buf[cursor.position.getX() ][cursor.position.getY() + 1] = 0xdb;
-// 
-// 		}
-// 	}else if (player.getDirection() == 1)
-// 	{
-// 		if (countShip == 0) {
-// 			for (int l=0; l < 4; l++) {
-// 				Buf[cursor.position.getX()+l][cursor.position.getY()] = 0xdb;
-// 				Buf[cursor.position.getX()+l][cursor.position.getY() + 1] = 0xdb;
-// 			}
-// 		}
-// 		else if (countShip > 0 && countShip <= 2) {
-// 			for (int l = 0; l < 3; l++) {
-// 				Buf[cursor.position.getX() + l][cursor.position.getY()] = 0xdb;
-// 				Buf[cursor.position.getX() + l][cursor.position.getY() + 1] = 0xdb;
-// 			}
-// 
-// 		}
-// 		else if (countShip > 2 && countShip <= 5) {
-// 			for (int l = 0; l < 2; l++) {
-// 				Buf[cursor.position.getX() + l][cursor.position.getY()] = 0xdb;
-// 				Buf[cursor.position.getX() + l][cursor.position.getY() + 1] = 0xdb;
-// 			}
-// 		}
-// 		else if (countShip > 5 && countShip <= 9) {
-// 				Buf[cursor.position.getX() ][cursor.position.getY()] = 0xdb;
-// 				Buf[cursor.position.getX() ][cursor.position.getY() + 1] = 0xdb;
-// 			
-// 		}
-// 
-// 	}
-	   
-		for (int i = 0;i < BUF_HEIGHT;i++)
-		{
-			writeString(i, Buf[i]);//	cout << Buf[i];
-		}
-	
+	drawCursor(player);
+	for (int i = 0;i < BUF_HEIGHT;i++)
+	{
+		writeString(i, Buf[i]);//	cout << Buf[i];
+	}
+
 }

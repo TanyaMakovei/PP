@@ -5,10 +5,12 @@
 #include "Ship.h"
 #include "Common.h"
 
+const int COMPUTER = 0;
+const int HUMAN = 1;
 class Battlefield
 {
 private:
-	int status; //0-компьютер, 1 - игрок
+	int status;
 	int myBoard[10][10];//0-пусто,1-корабль,2-ранен,3-убит,4-промах,5-не доступно
 	int enemyBoard[10][10];
 	int countShip;
@@ -21,16 +23,18 @@ public:
 
 	Mode getMode();
 	int getStatus();
-	void setStatus(int);
-	void setShip(int, int);
-	void setMyPoint(int, int, int);
-	void setEnemyPoint(int, int, int);//установкаа значения в массив своего поля
+	void setStatus(int status);
+	void setShip(int x, int y);
+	void setMyPoint(int x, int y, int value);
+	void setEnemyPoint(int x, int y, int value);//установкаа значения в массив своего поля
 	void printBoards();//вывод полей на экран, также вывож подсказок
-	int getMyPoint(int, int);
-	int getEnemyPoint(int, int);
-	char drawFrame(int, int);
+	int getMyPoint(int x, int y);
+	int getEnemyPoint(int x, int y);
+	char drawFrame(int x, int y);
 	void changeDirection();//установка направления корабля
 	int getDirection();
 	int getCountShip();
-}
+	void createShip(int x, int y, int sizeTypeShip);
+	void clearBattlefield();
+};
 #endif

@@ -2,8 +2,9 @@
 Battlefield::Battlefield()
 {
 	countShip = 0;
-	Mode modeGame = ShipArrangement;
-	direction = 0;//0-horizontal,1-vertical
+	modeGame = ShipArrangement;
+	direction = HORIZONTAL;
+	clearBattlefield();
 
 }
 Battlefield::~Battlefield()
@@ -26,117 +27,30 @@ void Battlefield::setStatus(int status)
 
 void Battlefield::setShip(int x, int y)
 {
-	int pos;
-	if (countShip == 0) {
-
-		if (direction == 0) {
-			pos = x + 3;
-		}
-		else if (direction == 1) {
-			pos = y + 3;
-		}
-		if (pos > 9) {
-			//error
-		}
-		else {
-			ships.push_back(&Ship(4));
-			Ship(4).setShip(x, y, direction);
-			for (int i = 0; i < 4;i++) {
-				if (direction == 0) {
-					myBoard[x][y + i] = 1;
-				}
-				else if (direction == 1) {
-					myBoard[x + i][y] = 1;
-
-				}
-
-			}
-		}
+	
+	if (countShip == 0)
+	{
+		createShip(x, y, SIZE_4TYPE_SHIP);
 
 	}
-	else if (countShip > 0 && countShip <= 2) {
-		if (direction == 0) {
-			pos = x + 2;
-		}
-		else if (direction == 1) {
-			pos = y + 2;
-		}
-		if (pos > 9) {
-			//error
-		}
-		else {
-			ships.push_back(&Ship(3));
-			Ship(3).setShip(x, y, direction);
-			for (int i = 0; i < 3;i++) {
-				if (direction == 0) {
-					myBoard[x][y + i] = 1;
-				}
-				else if (direction == 1) {
-					myBoard[x + i][y] = 1;
-
-				}
-
-			}
-		}
-
+	else if (countShip > 0 && countShip <= 2) 
+	{
+		createShip(x, y, SIZE_3TYPE_SHIP);
 	}
-	else if (countShip > 2 && countShip <= 5) {
-		if (direction == 0) {
-			pos = x + 1;
-		}
-		else if (direction == 1) {
-			pos = y + 1;
-		}
-		if (pos > 9) {
-			//error
-		}
-		else {
-			ships.push_back(&Ship(2));
-			Ship(2).setShip(x, y, direction);
-			for (int i = 0; i < 2;i++) {
-				if (direction == 0) {
-					myBoard[x][y + i] = 1;
-				}
-				else if (direction == 1) {
-					myBoard[x + i][y] = 1;
-
-				}
-
-			}
-		}
-
+	else if (countShip > 2 && countShip <= 5)
+	{
+		createShip(x, y, SIZE_2TYPE_SHIP);
 	}
-	else if (countShip > 5 && countShip <= 9) {
-		if (direction == 0) {
-			pos = x;
-		}
-		else if (direction == 1) {
-			pos = y;
-		}
-		if (pos > 9) {
-			//error
-		}
-		else {
-			ships.push_back(&Ship(1));
-			Ship(1).setShip(x, y, direction);
-			for (int i = 0; i < 1;i++) {
-				if (direction == 0) {
-					myBoard[x][y + i] = 1;
-				}
-				else if (direction == 1) {
-					myBoard[x + i][y] = 1;
-
-				}
-
-			}
-		}
-
+	else if (countShip > 5 && countShip <= 9)
+	{
+		createShip(x, y, SIZE_1TYPE_SHIP);
 	}
-	else if (countShip > 9) {
+	else if (countShip > 9) 
+	{
 		modeGame = Battle;
 	}
 	countShip++;
-	direction = 0;
+	direction = HORIZONTAL;
 }
 
 void Battlefield::setMyPoint(int x, int y, int value)
@@ -165,18 +79,19 @@ int Battlefield::getEnemyPoint(int x, int y)
 
 char Battlefield::drawFrame(int x, int y)
 {
-	switch (this->getMyPoint(x, y)) {
-	case 0:
+	switch (this->getMyPoint(x, y)) 
+	{
+	case EMPTY:
 		return 0xb0;
-	case 1:
+	case ALIVE:
 		return 0xb2;
-	case 2:
+	case INJUR:
 		return 0xc4;
-	case 3:
+	case KILL:
 		return 0xcd;
-	case 4:
+	case MISS:
 		return 0xf9;
-	case 5:
+	case NOT_AVAILABLE:
 		return 0xb1;
 	default:
 		break;
@@ -185,8 +100,8 @@ char Battlefield::drawFrame(int x, int y)
 
 void Battlefield::changeDirection()
 {
-	if (direction == 0) direction = 1;
-	else if (direction == 1) direction = 0;
+	if (direction == HORIZONTAL) direction = VERTICAL;
+	else if (direction == VERTICAL) direction = HORIZONTAL;
 }
 
 int Battlefield::getDirection()
@@ -197,6 +112,52 @@ int Battlefield::getDirection()
 int Battlefield::getCountShip()
 {
 	return countShip;
+}
+
+void Battlefield::createShip(int x, int y, int sizeTypeShip)
+{
+	int pos;
+	if (direction == HORIZONTAL)
+	{
+		pos = x + sizeTypeShip - 1;
+	}
+	else if (direction == VERTICAL)
+	{
+		pos = y + sizeTypeShip - 1;
+	}
+	if (pos >= SIZE_BATTLEFIELD)
+	{
+		//error
+	}
+	else
+	{
+		ships.push_back(&Ship(sizeTypeShip));
+		Ship(sizeTypeShip).setShip(x, y, direction);
+		for (int i = 0; i < sizeTypeShip;i++)
+		{
+			if (direction == HORIZONTAL)
+			{
+				myBoard[x][y + i] = 1;
+			}
+			else if (direction == VERTICAL)
+			{
+				myBoard[x + i][y] = 1;
+
+			}
+
+		}
+	}
+}
+
+void Battlefield::clearBattlefield()
+{
+	for (int i = 0; i < SIZE_BATTLEFIELD;i++)
+	{
+		for (int j = 0; j < SIZE_BATTLEFIELD;j++)
+		{
+			myBoard[i][j] = 0;
+		}
+	}
 }
 
 int Battlefield::getMyPoint(int x, int y)

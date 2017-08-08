@@ -19,10 +19,14 @@ public:
 	GameLogic();
 	~GameLogic();
 
-	void pauseGame();//вывод состояния паузы и времени ожидания, возможность вернуться к игре или завершить
-	void printStatistic();//вывод статистики в финале
-	void doAction(int);
-	void checkHit(int, int, Battlefield, Battlefield);// проверка попадания и установка значения в массив вражеского поля
+	void pauseGame();//вывод состояния паузы и времени ожидания, возможность вернуться к игре или завершить/
+	void printStatistic();
+	void doAction(int i_input);
+	void doArrangmentAction(int i_input);
+	void doBattleAction(int i_input);
+	void checkHit(int x, int y, Battlefield playerAttac, Battlefield playerDefense);// проверка попадания и установка значения в массив вражеского поля
+	void drawCursor(Battlefield player);
+	void drawCursorByType(int sizeTypeShip, int direction);
 	
 	void drawFrame();
 private:

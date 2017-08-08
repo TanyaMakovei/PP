@@ -15,15 +15,14 @@ int main(int argc, char *argv[]) {
 		newGame.drawFrame();
 		i_input = _getch();		
 		switch (i_input) {
-		case 'p':
-		case 'P':
-			newGame.pauseGame();//p
+		case PAUSE:
+			newGame.pauseGame();
 			break;
 		default:
 			newGame.doAction(i_input);
 			
 		}
-	} while (i_input != 27);//esc
+	} while (i_input != ESCAPE);
 	
 	return 0;
 }
