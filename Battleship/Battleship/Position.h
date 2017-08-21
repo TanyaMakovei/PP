@@ -10,7 +10,9 @@ public:
 	Position();
 	~Position();
 
-	void setPosition(int axis,int shift);//изменение позиции курсора, \\отправка в массив при энтере
+	void setBattlePosition(int axis, int shift);
+
+	void setPosition(int axis,int shift, int sizeShip, int direction);//изменение позиции курсора, \\отправка в массив при энтере
 	
 	
 };

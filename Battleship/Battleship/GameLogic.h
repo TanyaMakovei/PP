@@ -15,6 +15,7 @@ private:
 	Battlefield player2;
 	Position cursor;
 	WaitTime gameTime;
+	bool isPause;
 public:
 	GameLogic();
 	~GameLogic();
@@ -27,6 +28,7 @@ public:
 	void checkHit(int x, int y, Battlefield playerAttac, Battlefield playerDefense);// проверка попадания и установка значения в массив вражеского поля
 	void drawCursor(Battlefield player);
 	void drawCursorByType(int sizeTypeShip, int direction);
+	int getTypeShip(Battlefield player);
 	
 	void drawFrame();
 private:

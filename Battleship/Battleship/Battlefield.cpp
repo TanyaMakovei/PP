@@ -27,30 +27,32 @@ void Battlefield::setStatus(int status)
 
 void Battlefield::setShip(int x, int y)
 {
-	
-	if (countShip == 0)
+	if (countShip < 0)
+	{
+		countShip = 0;
+	}
+	else if (countShip < COUNT_4TYPE_SHIP)
 	{
 		createShip(x, y, SIZE_4TYPE_SHIP);
 
 	}
-	else if (countShip > 0 && countShip <= 2) 
+	else if (countShip < (COUNT_4TYPE_SHIP + COUNT_3TYPE_SHIP))
 	{
 		createShip(x, y, SIZE_3TYPE_SHIP);
 	}
-	else if (countShip > 2 && countShip <= 5)
+	else if (countShip < (COUNT_4TYPE_SHIP + COUNT_3TYPE_SHIP + COUNT_2TYPE_SHIP))
 	{
 		createShip(x, y, SIZE_2TYPE_SHIP);
 	}
-	else if (countShip > 5 && countShip <= 9)
+	else if (countShip < (COUNT_4TYPE_SHIP + COUNT_3TYPE_SHIP + COUNT_2TYPE_SHIP + COUNT_1TYPE_SHIP))
 	{
 		createShip(x, y, SIZE_1TYPE_SHIP);
 	}
-	else if (countShip > 9) 
+	else if (countShip >= (COUNT_4TYPE_SHIP + COUNT_3TYPE_SHIP + COUNT_2TYPE_SHIP + COUNT_1TYPE_SHIP))
 	{
 		modeGame = Battle;
 	}
-	countShip++;
-	direction = HORIZONTAL;
+	//direction = HORIZONTAL;
 }
 
 void Battlefield::setMyPoint(int x, int y, int value)
@@ -79,7 +81,7 @@ int Battlefield::getEnemyPoint(int x, int y)
 
 char Battlefield::drawFrame(int x, int y)
 {
-	switch (this->getMyPoint(x, y)) 
+	switch (this->getMyPoint(x, y))
 	{
 	case EMPTY:
 		return 0xb0;
@@ -114,6 +116,11 @@ int Battlefield::getCountShip()
 	return countShip;
 }
 
+void Battlefield::setCountShip(int count)
+{
+	countShip = count;
+}
+
 void Battlefield::createShip(int x, int y, int sizeTypeShip)
 {
 	int pos;
@@ -131,21 +138,18 @@ void Battlefield::createShip(int x, int y, int sizeTypeShip)
 	}
 	else
 	{
-		ships.push_back(&Ship(sizeTypeShip));
-		Ship(sizeTypeShip).setShip(x, y, direction);
-		for (int i = 0; i < sizeTypeShip;i++)
+		if (checkEmpty(x, y, sizeTypeShip))
 		{
-			if (direction == HORIZONTAL)
-			{
-				myBoard[x][y + i] = 1;
-			}
-			else if (direction == VERTICAL)
-			{
-				myBoard[x + i][y] = 1;
-
-			}
-
+			ships.push_back(&Ship(sizeTypeShip));
+			Ship(sizeTypeShip).setShip(x, y, direction);
+			addShipToBoard(x, y, sizeTypeShip);
+			countShip++;
 		}
+		else
+		{
+			//not available
+		}
+
 	}
 }
 
@@ -158,6 +162,125 @@ void Battlefield::clearBattlefield()
 			myBoard[i][j] = 0;
 		}
 	}
+}
+
+void Battlefield::addShipToBoard(int x, int y, int sizeTypeShip)
+{
+	for (int i = 0; i < sizeTypeShip;i++)
+	{
+		if (direction == HORIZONTAL)
+		{
+			if (x > 0)
+			{
+				if (y > 0)
+				{
+					myBoard[x - 1][y - 1] = NOT_AVAILABLE;
+				}
+				if ((y + sizeTypeShip) < SIZE_BATTLEFIELD)
+				{
+					myBoard[x - 1][y + sizeTypeShip] = NOT_AVAILABLE;
+				}
+				myBoard[x - 1][y + i] = NOT_AVAILABLE;
+			}
+			if (y > 0)
+			{
+				myBoard[x][y - 1] = NOT_AVAILABLE;
+			}
+			if ((y + sizeTypeShip) < SIZE_BATTLEFIELD)
+			{
+				myBoard[x][y + sizeTypeShip] = NOT_AVAILABLE;
+			}
+			if (x < (SIZE_BATTLEFIELD - 1))
+			{
+				if (y > 0)
+				{
+					myBoard[x + 1][y - 1] = NOT_AVAILABLE;
+				}
+				if ((y + sizeTypeShip) < SIZE_BATTLEFIELD)
+				{
+					myBoard[x + 1][y + sizeTypeShip] = NOT_AVAILABLE;
+				}
+				myBoard[x + 1][y + i] = NOT_AVAILABLE;
+			}
+			myBoard[x][y + i] = ALIVE;
+		}
+		else if (direction == VERTICAL)
+		{
+			if (y > 0)
+			{
+				if (x > 0)
+				{
+					myBoard[x - 1][y - 1] = NOT_AVAILABLE;
+				}
+				if ((x + sizeTypeShip) < SIZE_BATTLEFIELD)
+				{
+					myBoard[x + sizeTypeShip][y - 1] = NOT_AVAILABLE;
+				}
+				myBoard[x + i][y - 1] = NOT_AVAILABLE;
+			}
+			if (x > 0)
+			{
+				myBoard[x - 1][y] = NOT_AVAILABLE;
+			}
+			if ((x + sizeTypeShip) < SIZE_BATTLEFIELD)
+			{
+				myBoard[x + sizeTypeShip][y] = NOT_AVAILABLE;
+			}
+			if (y < (SIZE_BATTLEFIELD - 1))
+			{
+				myBoard[x + i][y + 1] = NOT_AVAILABLE;
+			}
+			if (y < (SIZE_BATTLEFIELD - 1))
+			{
+				if (x > 0)
+				{
+					myBoard[x - 1][y + 1] = NOT_AVAILABLE;
+				}
+				if ((x + sizeTypeShip) < SIZE_BATTLEFIELD)
+				{
+					myBoard[x + sizeTypeShip][y + 1] = NOT_AVAILABLE;
+				}
+				myBoard[x + i][y + 1] = NOT_AVAILABLE;
+			}
+			myBoard[x + i][y] = ALIVE;
+		}
+
+	}
+}
+
+bool Battlefield::checkEmpty(int x, int y, int sizeTypeShip)
+{
+
+	if (HORIZONTAL == direction)
+	{
+		for (int i = 0; i < sizeTypeShip; i++)
+		{
+			if (EMPTY == myBoard[x][y + i])
+			{
+				
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	else if (VERTICAL == direction)
+	{
+		for (int i = 0; i < sizeTypeShip; i++)
+		{
+			if (EMPTY == myBoard[x + i][y])
+			{
+
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+	}
+	return true;
 }
 
 int Battlefield::getMyPoint(int x, int y)

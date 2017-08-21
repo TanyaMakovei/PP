@@ -7,10 +7,16 @@
 #include <stdio.h>
 
 const int SIZE_BATTLEFIELD = 10;
+
 const int SIZE_4TYPE_SHIP = 4;
 const int SIZE_3TYPE_SHIP = 3;
 const int SIZE_2TYPE_SHIP = 2;
 const int SIZE_1TYPE_SHIP = 1;
+
+const int COUNT_4TYPE_SHIP = 1;
+const int COUNT_3TYPE_SHIP = 2;
+const int COUNT_2TYPE_SHIP = 3;
+const int COUNT_1TYPE_SHIP = 4;
 
 const int HORIZONTAL = 0;
 const int VERTICAL = 1;

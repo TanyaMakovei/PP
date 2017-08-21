@@ -10,7 +10,7 @@ GameLogic::GameLogic()
 	player1.setStatus(HUMAN);
 	player2.setStatus(COMPUTER);
 	int i, j;
-
+	isPause = false;
 	//"└──────────────────────┘"
 	for (i = 0;i < BUF_HEIGHT;i++)
 	{
@@ -59,6 +59,18 @@ GameLogic::~GameLogic()
 
 void GameLogic::pauseGame()
 {
+	if (false == isPause)
+	{
+		//pause
+		for (int i = 0;i < BUF_HEIGHT;i++)
+		{
+			writeString(i, Buf[i]);//	cout << Buf[i];
+		}
+	}
+	else
+	{
+		drawFrame();
+	}
 }
 
 void GameLogic::printStatistic()
@@ -74,28 +86,32 @@ void GameLogic::doAction(int i_input)
 
 		doBattleAction(i_input);
 	}
+	
 }
 
 void GameLogic::doArrangmentAction(int i_input)
 {
+	int sizeShip = getTypeShip(player1);
+	
 	switch (i_input) {
 	case KEY_W:
-		cursor.setPosition(0, -1);//up
+		cursor.setPosition(0, -1, sizeShip, player1.getDirection());//up
 		break;
 	case KEY_S:
-		cursor.setPosition(0, 1);//down
+		cursor.setPosition(0, 1, sizeShip, player1.getDirection());//down
 		break;
 	case KEY_A:
-		cursor.setPosition(1, -1);//left
+		cursor.setPosition(1, -1, sizeShip, player1.getDirection());//left
 		break;
 	case KEY_D:
-		cursor.setPosition(1, 1);//right
+		cursor.setPosition(1, 1, sizeShip, player1.getDirection());//right
 		break;
 	case ENTER:
 		player1.setShip(cursor.position.getX(), cursor.position.getY());
 		break;
 	case SPACE:
 		player1.changeDirection();
+		cursor.setPosition(!player1.getDirection(),1-sizeShip,sizeShip, player1.getDirection());
 		break;
 	default:
 		break;
@@ -104,18 +120,19 @@ void GameLogic::doArrangmentAction(int i_input)
 
 void GameLogic::doBattleAction(int i_input)
 {
+	
 	switch (i_input) {
 	case KEY_W:
-		cursor.setPosition(0, -1);//up
+		cursor.setBattlePosition(0, -1);//up
 		break;
 	case KEY_S:
-		cursor.setPosition(0, 1);//down
+		cursor.setBattlePosition(0, 1);//down
 		break;
 	case KEY_A:
-		cursor.setPosition(1, -1);//left
+		cursor.setBattlePosition(1, -1);//left
 		break;
 	case KEY_D:
-		cursor.setPosition(1, 1);//right
+		cursor.setBattlePosition(1, 1);//right
 		break;
 	case ENTER:
 
@@ -139,24 +156,9 @@ void GameLogic::checkHit(int x, int y, Battlefield playerAttac, Battlefield play
 void GameLogic::drawCursor(Battlefield player)
 {
 	int direction = player.getDirection();
-
-	if (player.getCountShip() == 0)
-	{
-		drawCursorByType(SIZE_4TYPE_SHIP, direction);
-	}
-	else if (player.getCountShip() > 0 && player.getCountShip() <= 2)
-	{
-		drawCursorByType(SIZE_3TYPE_SHIP, direction);
-	}
-	else if (player.getCountShip() > 2 && player.getCountShip() <= 5)
-	{
-		drawCursorByType(SIZE_2TYPE_SHIP, direction);
-	}
-	else if (player.getCountShip() > 5 && player.getCountShip() <= 9)
-	{
-		drawCursorByType(SIZE_1TYPE_SHIP, direction);
-
-	}
+	int sizeShip = getTypeShip(player);
+		drawCursorByType(sizeShip, direction);
+	
 }
 
 void GameLogic::drawCursorByType(int sizeTypeShip, int direction)
@@ -164,15 +166,41 @@ void GameLogic::drawCursorByType(int sizeTypeShip, int direction)
 	if (HORIZONTAL == direction)
 	{
 		for (int l = 0; l < sizeTypeShip * 2; l++) {
-			Buf[cursor.position.getX()][cursor.position.getY() + l] = 0xdb;
+			Buf[cursor.position.getX()][cursor.position.getY()*2 + l] = 0xdb;
+
 		}
 	}
 	else if (VERTICAL == direction)
 	{
 		for (int l = 0; l < sizeTypeShip; l++) {
-			Buf[cursor.position.getX() + l][cursor.position.getY()] = 0xdb;
-			Buf[cursor.position.getX() + l][cursor.position.getY() + 1] = 0xdb;
+			Buf[cursor.position.getX() + l][cursor.position.getY()*2] = 0xdb;
+			Buf[cursor.position.getX() + l][cursor.position.getY()*2 + 1] = 0xdb;
 		}
+	}
+}
+
+int GameLogic::getTypeShip(Battlefield player)
+{
+	int countShip = player.getCountShip();
+	if (0 > countShip)
+	{
+		player.setCountShip(0);
+	}
+	else if (countShip < COUNT_4TYPE_SHIP)
+	{
+		return SIZE_4TYPE_SHIP;
+	}
+	else if (countShip <(COUNT_4TYPE_SHIP + COUNT_3TYPE_SHIP))
+	{
+		return SIZE_3TYPE_SHIP;
+	}
+	else if (countShip <(COUNT_4TYPE_SHIP + COUNT_3TYPE_SHIP + COUNT_2TYPE_SHIP))
+	{
+		return SIZE_2TYPE_SHIP;
+	}
+	else if (countShip < (COUNT_4TYPE_SHIP + COUNT_3TYPE_SHIP + COUNT_2TYPE_SHIP + COUNT_1TYPE_SHIP))
+	{
+		return SIZE_1TYPE_SHIP;
 	}
 }
 

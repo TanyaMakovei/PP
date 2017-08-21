@@ -34,7 +34,11 @@ public:
 	void changeDirection();//установка направления корабля
 	int getDirection();
 	int getCountShip();
+	void setCountShip(int count);
 	void createShip(int x, int y, int sizeTypeShip);
 	void clearBattlefield();
+	void addShipToBoard(int x, int y, int sizeTypeShip);
+	bool checkEmpty(int x, int y, int sizeTypeShip);
+
 };
 #endif
