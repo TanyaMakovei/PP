@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAR_H
+#define CAR_H
 #include "Helper.h"
 
 class Car
@@ -9,10 +10,13 @@ public:
 
 	void shiftLeft();
 	void shiftRight();
-	int getCarPos();
+	int getCarPos() const;
 private:
-	int x,
-		y;
+	int x_,
+		y_;
 
 };
+
+
+#endif CAR_H
 

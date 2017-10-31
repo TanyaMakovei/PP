@@ -4,8 +4,8 @@
 
 Car::Car()
 {
-	x = START_X;
-	y = START_Y;
+	x_ = START_X;
+	y_ = START_Y;
 }
 
 
@@ -15,15 +15,15 @@ Car::~Car()
 
 void Car::shiftLeft()
 {
-	if (y > 0) y--;
+	if (y_ > 0) y_--;
 }
 
 void Car::shiftRight()
 {
-	if (y < FIELD_WIDTH - 1) y++;
+	if (y_ < FIELD_WIDTH - 1) y_++;
 }
 
-int Car::getCarPos()
+int Car::getCarPos() const
 {
-	return y;
+	return y_;
 }

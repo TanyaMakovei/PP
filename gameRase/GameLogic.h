@@ -1,5 +1,9 @@
-#pragma once
+#ifndef GAMELOGIC_H
+#define GAMELOGIC_H
+
 #include "Helper.h"
+#include "Field.h"
+#include "Car.h"
 
 class GameLogic
 {
@@ -23,13 +27,16 @@ public:
 	void printOldField();
 private:
 	static char Buf[FIELD_LENGHT][FIELD_WIDTH];
-	int speed;
-	bool isPause = false;
-	Field field1;
-	Car car1;
-	int time;
-	int distance;
-	int distance2;
-	
+	int speed_;
+	bool isGameOver;
+	bool isPause_ = false;
+	Field field1_;
+	Car car1_;
+	int time_;
+	int distance_;
+	int distance2_;
+
 };
 
+
+#endif GAMELOGIC_H

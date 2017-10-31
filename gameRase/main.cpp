@@ -5,6 +5,7 @@
 #include <Windows.h>
 
 #include "Helper.h"
+#include "GameLogic.h"
 
 HHOOK _hook;
 KBDLLHOOKSTRUCT kbdStruct;
@@ -17,6 +18,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 		
 		if (wParam == WM_KEYDOWN)
 		{
+			printf("oo0");
 			kbdStruct = *((KBDLLHOOKSTRUCT*)lParam);
 			
 			switch (kbdStruct.vkCode)
@@ -28,6 +30,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 				newGame.decreaseSpeed();
 				break;
 			case VK_LEFT:
+				printf("oo");
 				newGame.shiftLeft();
 				break;
 			case VK_RIGHT:
@@ -65,7 +68,11 @@ void main()
 	SetHook();
 	
 	newGame.printGame();
-
+	//MSG msg;
+	//while (GetMessage(&msg, NULL, 0, 0))
+	//{
+	//
+	//}
 	ReleaseHook();
 }
 
