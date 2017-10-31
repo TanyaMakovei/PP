@@ -140,7 +140,7 @@ void GameLogic::endGame()
 
 }
 
-void GameLogic::printStatus()
+void GameLogic::printStatus() const
 {
 	printf("Your time is:%d\n", time_);
 	printf("Your distance is:%d\n", distance_);

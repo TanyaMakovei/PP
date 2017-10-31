@@ -20,7 +20,7 @@ public:
 	char drawElement(int x, int y);
 	void printGame();
 	void endGame();
-	void printStatus();
+	void printStatus() const;
 	void checkHit();
 	void shiftLeft();
 	void shiftRight();
