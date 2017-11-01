@@ -2,22 +2,17 @@
 #include "Windows.h"
 
 
-char GameLogic::Buf[FIELD_LENGHT][FIELD_WIDTH];
+
 
 GameLogic::GameLogic()
 {
 	isGameOver = false;
 	Field field1;
 	Car car1;
-	distance_ = -1;
-	speed_ = 3;
-	int i, j;
-	for (i = 0;i < FIELD_LENGHT;i++)
-	{
-		for (j = 0; j < FIELD_WIDTH;j++) {
-			Buf[i][j] = SYMBOL_FIELD;
-		}
-	}
+	distance_ = START_DISTANCE;
+	distance2_ = START_DISTANCE2;
+	speed_ = START_SPEED;
+	time_ = START_TIME;
 }
 
 
@@ -25,62 +20,42 @@ GameLogic::~GameLogic()
 {
 }
 
-void writeString(int row, LPCSTR arg, int lengthArg) {
-	HANDLE                     hStdOut;
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	DWORD                      count;
-	DWORD                      cellCount;
-	COORD                      homeCoords = { SHIFT_FIELD, row + SHIFT_FIELD };
-
-	hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	if (hStdOut == INVALID_HANDLE_VALUE) return;
-
-	/* Get the number of cells in the current buffer */
-	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi)) return;
-	cellCount = csbi.dwSize.X * csbi.dwSize.Y;
-
-	/* Fill the entire buffer with spaces */
-	if (!WriteConsoleOutputCharacterA(hStdOut, arg,
-		lengthArg, homeCoords, &count))
-		return;
-}
 
 void GameLogic::pause()
 {
-	if (false == isPause_)
-	{
+	
 		countTime();
-		isPause_ = true;
+		system("cls");
 		printf("PAUSE\n");
-		printStatus();
-
-	}
-	else
-	{
-		isPause_ = false;
-		printGame();
-	}
+		gamePrinter1_.printStatus(time_, distance_);
+		do
+		{  
+		} while (!GetAsyncKeyState(VK_RETURN));
+		system("cls");
+		return;
+	
 }
 
 void GameLogic::countTime()
 {
-	time_ += (distance_ - distance2_) / speed_;
+	int deltaDist = (distance_ - distance2_) ;
+	time_ = float(deltaDist) / float(speed_);
 	distance2_ = distance_;
 }
 
-void GameLogic::printField()
+void GameLogic::generateField()
 {
 
 	field1_.generateField();
 	distance_++;
-	printOldField();
+	gamePrinter1_.printOldField(field1_);
 	checkHit();
 }
 
-void GameLogic::printCar()
+void GameLogic::generateCar()
 {
 	int y = car1_.getCarPos();
-	Buf[START_X][y] = SYMBOL_CAR;
+	gamePrinter1_.printCar(y);
 }
 
 
@@ -102,30 +77,17 @@ void GameLogic::decreaseSpeed()
 	}
 }
 
-char GameLogic::drawElement(int x, int y)
-{
-	switch (field1_.getPoint(x, y))
-	{
-	case EMPTY:
-		return SYMBOL_FIELD;
-	case TREE:
-		return SYMBOL_TREE;
-	default:
-		break;
-	}
-}
 
 void GameLogic::printGame()
 {
 	while (!isGameOver)
 	{
-		printField();
-		printCar();
-		for (int i = 0;i < FIELD_LENGHT;i++)
-		{
-			writeString(i, Buf[i], FIELD_WIDTH);
-		}
+		generateField();
+		generateCar();
+		gamePrinter1_.printGame();
+		checkPressKey();
 		concurrency::wait(WAIT_TIME - speed_*COEFFICIENT);
+
 	}
 
 }
@@ -135,15 +97,11 @@ void GameLogic::endGame()
 	isGameOver = true;
 	system("cls");
 	printf("GAME OVER\n");
-	printStatus();
-	_getch();
-
-}
-
-void GameLogic::printStatus() const
-{
-	printf("Your time is:%d\n", time_);
-	printf("Your distance is:%d\n", distance_);
+	gamePrinter1_.printStatus(time_, distance_);
+	do
+	{
+	} while (!GetAsyncKeyState(VK_ESCAPE));
+	
 }
 
 void GameLogic::checkHit()
@@ -158,8 +116,8 @@ void GameLogic::checkHit()
 void GameLogic::shiftLeft()
 {
 	car1_.shiftLeft();
-	printOldField();
-	printCar();
+	gamePrinter1_.printOldField(field1_);
+	generateCar();
 	checkHit();
 
 }
@@ -167,24 +125,37 @@ void GameLogic::shiftLeft()
 void GameLogic::shiftRight()
 {
 	car1_.shiftRight();
-	printOldField();
-	printCar();
+	gamePrinter1_.printOldField(field1_);
+	generateCar();
 	checkHit();
 }
 
-void GameLogic::printOldField()
+void GameLogic::checkPressKey()
 {
-
-	for (int x = 0;x < FIELD_LENGHT;x++)
+	if (GetAsyncKeyState(VK_UP))
 	{
-		for (int y = 0; y < FIELD_WIDTH;y++)
-		{
-			Buf[x][y] = drawElement(x, y);
-
-		}
+		increaseSpeed();
 	}
-	
-
+	if (GetAsyncKeyState(VK_DOWN))
+	{
+		decreaseSpeed();
+	}
+	if (GetAsyncKeyState(VK_LEFT))
+	{
+		shiftLeft();
+	}
+	if (GetAsyncKeyState(VK_RIGHT))
+	{
+		shiftRight();
+	}
+	if (GetAsyncKeyState(VK_RETURN))
+	{
+		pause();
+	}
+	if (GetAsyncKeyState(VK_ESCAPE))
+	{
+		isGameOver = true;
+	}
 
 }
 

@@ -9,13 +9,15 @@ const int TREE = 1;
 const int EMPTY = 0;
 const int CAR = 2;
 
+const int ENTER = 13;
+
 const int FIELD_WIDTH = 20;
 const int FIELD_LENGHT = 20;
 
 const int START_X = FIELD_LENGHT-1;
 const int START_Y = FIELD_WIDTH/2;
 
-const int MAX_COUNT_OF_TREES = 5;
+const int MAX_COUNT_OF_TREES = 4;
 
 const int MIN_SPEED = 1;
 const int MAX_SPEED = 9;
@@ -29,6 +31,11 @@ const int SHIFT_FIELD = 3;
 
 const int COEFFICIENT = 50;
 const int WAIT_TIME = 500;
+
+const int START_SPEED = 3;
+const int START_DISTANCE = -1;
+const int START_DISTANCE2 = 0;
+const int START_TIME = 0;
 
 #include "Car.h"
 #include "Field.h"

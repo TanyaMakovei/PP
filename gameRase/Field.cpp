@@ -8,7 +8,7 @@ Field::Field()
 	{
 		for (int j = 0;j < FIELD_WIDTH;j++)
 		{
-			gameField[i][j] == EMPTY;
+			gameField[i][j] = EMPTY;
 		}
 	}
 }
@@ -43,7 +43,6 @@ void Field::generateLine()
 
 void Field::generateField()
 {
-	int gameFieldTemp[FIELD_WIDTH][FIELD_LENGHT];
 	for (int i = FIELD_LENGHT - 1; i > 0;i--)
 	{
 		for (int j = 0;j < FIELD_WIDTH;j++)

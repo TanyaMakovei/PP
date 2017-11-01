@@ -4,6 +4,7 @@
 #include "Helper.h"
 #include "Field.h"
 #include "Car.h"
+#include "GamePrinter.h"
 
 class GameLogic
 {
@@ -13,26 +14,23 @@ public:
 
 	void pause();
 	void countTime();
-	void printField();
-	void printCar();
+	void generateField();
+	void generateCar();
 	void increaseSpeed();
 	void decreaseSpeed();
-	char drawElement(int x, int y);
 	void printGame();
 	void endGame();
-	void printStatus() const;
 	void checkHit();
 	void shiftLeft();
 	void shiftRight();
-	void printOldField();
+	void checkPressKey();
 private:
-	static char Buf[FIELD_LENGHT][FIELD_WIDTH];
 	int speed_;
 	bool isGameOver;
-	bool isPause_ = false;
 	Field field1_;
 	Car car1_;
-	int time_;
+	GamePrinter gamePrinter1_;
+	float time_;
 	int distance_;
 	int distance2_;
 
