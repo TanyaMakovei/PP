@@ -39,7 +39,7 @@ void GameLogic::pause()
 void GameLogic::countTime()
 {
 	int deltaDist = (distance_ - distance2_) ;
-	time_ = float(deltaDist) / float(speed_);
+	time_ += float(deltaDist) / float(speed_);
 	distance2_ = distance_;
 }
 
