@@ -14,7 +14,7 @@ public:
 	void printCar(int y);
 	void printGame();
 	char drawElement(int x, int y, Field &field);
-	void printStatus(float time, int distance) const;
+	void printStatus(float time, int distance, int points) const;
 	void printOldField(Field &field);
 private:
 	static char Buf[FIELD_LENGHT][FIELD_WIDTH];

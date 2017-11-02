@@ -33,10 +33,6 @@ void writeString(int row, LPCSTR arg, int lengthArg) {
 	{
 		cellCount = csbi.dwSize.X * csbi.dwSize.Y;
 	}
-	else
-	{
-		return;
-	}
 }
 
 
@@ -60,18 +56,17 @@ char GamePrinter::drawElement(int x, int y, Field &field)
 
 void GamePrinter::printGame()
 {
-	//printField();
-	//printCar();
 	for (int i = 0;i < FIELD_LENGHT;i++)
 	{
 		writeString(i, Buf[i], FIELD_WIDTH);
 	}
 }
 
-void GamePrinter::printStatus(float time, int distance) const
+void GamePrinter::printStatus(float time, int distance, int points) const
 {
-	printf("Your time is:%f\n", time);
-	printf("Your distance is:%d\n", distance);
+	printf("Your time is: %.2f\n", time);
+	printf("Your distance is: %d\n", distance);
+	printf("Your points is: %d\n", points);
 }
 
 void GamePrinter::printOldField(Field &field)

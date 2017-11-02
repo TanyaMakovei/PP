@@ -31,10 +31,11 @@ void Field::generateLine()
 	for (int count = 0;count < countOfTrees;)
 	{
 		int numb;
-		numb = rand() % FIELD_WIDTH;
-		if (EMPTY == gameField[0][numb])
+		numb = rand() % (FIELD_WIDTH-1);
+		if ((EMPTY == gameField[0][numb])&& (EMPTY == gameField[0][numb+1]))
 		{
 			gameField[0][numb] = TREE;
+			gameField[0][numb+1] = TREE;
 			count++;
 		}
 
@@ -56,5 +57,13 @@ void Field::generateField()
 int Field::getPoint(int x, int y) const
 {
 	return gameField[x][y];
+}
+
+void Field::generateNextField()
+{
+	for (int k; k < MAX_COUNT_OF_TREES;k++)
+	{
+
+	}
 }
 

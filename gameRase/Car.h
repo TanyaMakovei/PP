@@ -12,8 +12,8 @@ public:
 	void shiftRight();
 	int getCarPos() const;
 private:
-	int x_,
-		y_;
+	int x_;
+	int y_;
 
 };
 

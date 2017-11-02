@@ -7,12 +7,13 @@
 GameLogic::GameLogic()
 {
 	isGameOver = false;
-	Field field1;
-	Car car1;
 	distance_ = START_DISTANCE;
 	distance2_ = START_DISTANCE2;
 	speed_ = START_SPEED;
 	time_ = START_TIME;
+	Field field1_;
+	Car car1_;
+	GamePrinter gamePrinter1_;
 }
 
 
@@ -25,9 +26,10 @@ void GameLogic::pause()
 {
 	
 		countTime();
+		countPoints();
 		system("cls");
 		printf("PAUSE\n");
-		gamePrinter1_.printStatus(time_, distance_);
+		gamePrinter1_.printStatus(time_, distance_,points_);
 		do
 		{  
 		} while (!GetAsyncKeyState(VK_RETURN));
@@ -94,10 +96,11 @@ void GameLogic::printGame()
 
 void GameLogic::endGame()
 {
+	countPoints();
 	isGameOver = true;
 	system("cls");
 	printf("GAME OVER\n");
-	gamePrinter1_.printStatus(time_, distance_);
+	gamePrinter1_.printStatus(time_, distance_,points_);
 	do
 	{
 	} while (!GetAsyncKeyState(VK_ESCAPE));
@@ -157,6 +160,11 @@ void GameLogic::checkPressKey()
 		isGameOver = true;
 	}
 
+}
+
+void GameLogic::countPoints()
+{
+	points_ = 10*distance_ - 5*time_;
 }
 
 

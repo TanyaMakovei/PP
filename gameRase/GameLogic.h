@@ -24,12 +24,14 @@ public:
 	void shiftLeft();
 	void shiftRight();
 	void checkPressKey();
+	void countPoints();
 private:
 	int speed_;
 	bool isGameOver;
 	Field field1_;
 	Car car1_;
 	GamePrinter gamePrinter1_;
+	int points_;
 	float time_;
 	int distance_;
 	int distance2_;
