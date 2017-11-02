@@ -11,7 +11,7 @@ Field::Field()
 			gameField[i][j] = EMPTY;
 		}
 	}
-	level = 0;
+	
 	generateNextField();
 }
 
@@ -43,12 +43,12 @@ void Field::generateLine()
 	//}
 	if (level >= FIELD_LENGHT)
 	{
-		level = 0;
+		generateNextField();
 	}
 
 	for (int i = 0; i < FIELD_WIDTH;i++)
 	{
-		gameField[0][i] = generatedField[level][i];
+		gameField[0][i] = generatedField[FIELD_LENGHT-level-1][i];
 	}
 }
 
@@ -71,6 +71,7 @@ int Field::getPoint(int x, int y) const
 
 void Field::generateNextField()
 {
+	level = 0;
 	for (int i = 0; i < FIELD_LENGHT;i++)
 	{
 		for (int j = 0; j < FIELD_WIDTH;j++)
@@ -80,38 +81,47 @@ void Field::generateNextField()
 		}
 
 	}
-	for (int type = 1; type <= COUNT_TYPES_TREES; type++)
+	for (int type = COUNT_TYPES_TREES; type > 0; type--)
 	{
 		for (int k = 0; k < MAX_COUNT_OF_TREES;)
 		{
 			Tree tree(type);
-			int numbX;
-			int numbY;
 			bool notTree = true;
-			numbX = rand() % (FIELD_LENGHT - tree.getSizeX());
-			numbY = rand() % (FIELD_WIDTH - tree.getSizeY());
-			for (int x = 1; x <= tree.getSizeX(); x++)
-			{
-				for (int y = 1; y <= tree.getSizeY(); y++)
-				{
-					if (EMPTY != generatedField[x][y])
-					{
-						notTree = false;
-					}
-				}
-			}
-
+			int sizeX = tree.getSizeX();
+			int sizeY = tree.getSizeY();
+			int numbX = rand() % (FIELD_LENGHT - sizeX);
+			int numbY = rand() % (FIELD_WIDTH - sizeY);
+			notTree = checkPlace(numbX, numbY, sizeX, sizeY);
 			if (notTree)
 			{
-				for (int x = 1; x <= tree.getSizeX(); x++)
-				{
-					for (int y = 1; y <= tree.getSizeY(); y++)
-					{
-						generatedField[x][y] = TREE;
-					}
-				}
+				setTree(numbX, numbY,sizeX, sizeY);
 				k++;
 			}
+		}
+	}
+}
+
+bool Field::checkPlace(int placeX, int placeY, int sizeX, int sizeY)
+{
+	for (int x = 0; x < sizeX; x++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			if (EMPTY != generatedField[placeX + x][placeY + y])
+			{
+				return false;
+			}
+		}
+	}
+}
+
+void Field::setTree(int placeX, int placeY, int sizeX, int sizeY)
+{
+	for (int x = 0; x <sizeX; x++)
+	{
+		for (int y = 0; y < sizeY; y++)
+		{
+			generatedField[placeX + x][placeY + y] = TREE;
 		}
 	}
 }

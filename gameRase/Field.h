@@ -14,6 +14,8 @@ public:
 	void generateField();
 	int getPoint(int x, int y) const;
 	void generateNextField();
+	bool checkPlace(int placeX, int placeY,int sizeX, int sizeY);
+	void setTree(int placeX, int placeY, int sizeX, int sizeY);
 private:
 	int gameField[FIELD_LENGHT][FIELD_WIDTH];
 	int generatedField[FIELD_LENGHT][FIELD_WIDTH];
