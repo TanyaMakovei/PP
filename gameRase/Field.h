@@ -17,7 +17,7 @@ public:
 private:
 	int gameField[FIELD_LENGHT][FIELD_WIDTH];
 	int generatedField[FIELD_LENGHT][FIELD_WIDTH];
-
+	int level;
 
 };
 

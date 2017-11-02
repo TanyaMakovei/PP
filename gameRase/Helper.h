@@ -22,6 +22,8 @@ const int MAX_COUNT_OF_TREES = 4;
 const int MIN_SPEED = 1;
 const int MAX_SPEED = 9;
 
+const int COUNT_TYPES_TREES = 3;
+
 const int SYMBOL_CAR = 219;
 const int SYMBOL_FIELD = 0xb0;
 const int SYMBOL_TREE = 0xb1;
