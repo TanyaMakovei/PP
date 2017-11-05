@@ -23,24 +23,7 @@ Field::~Field()
 
 void Field::generateLine()
 {
-	//int countOfTrees;
-	//countOfTrees = rand() % MAX_COUNT_OF_TREES + 1;
-	//for (int i = 0; i < FIELD_WIDTH;i++)
-	//{
-	//	gameField[0][i] = EMPTY;
-	//	
-	//}
-	//for (int count = 0;count < countOfTrees;)
-	//{
-	//	int numb;
-	//	numb = rand() % (FIELD_WIDTH-1);
-	//	if ((EMPTY == gameField[0][numb])&& (EMPTY == gameField[0][numb+1]))
-	//	{
-	//		gameField[0][numb] = TREE;
-	//		gameField[0][numb+1] = TREE;
-	//		count++;
-	//	}
-	//}
+	
 	if (level >= FIELD_LENGHT)
 	{
 		generateNextField();
@@ -50,6 +33,7 @@ void Field::generateLine()
 	{
 		gameField[0][i] = generatedField[FIELD_LENGHT-level-1][i];
 	}
+	level++;
 }
 
 void Field::generateField()
@@ -103,9 +87,9 @@ void Field::generateNextField()
 
 bool Field::checkPlace(int placeX, int placeY, int sizeX, int sizeY)
 {
-	for (int x = 0; x < sizeX; x++)
+	for (int x = 0; x <= sizeX; x++)
 	{
-		for (int y = 0; y < sizeY; y++)
+		for (int y = 0; y <= sizeY; y++)
 		{
 			if (EMPTY != generatedField[placeX + x][placeY + y])
 			{

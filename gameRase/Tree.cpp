@@ -5,7 +5,7 @@
 Tree::Tree(int type)
 {
 	sizeX_ = type;
-	sizeY_ = type;
+	sizeY_ = type*TREE_RATIO;
 }
 
 

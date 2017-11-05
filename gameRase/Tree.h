@@ -1,5 +1,8 @@
 #ifndef TREE_H
 #define TREE_H
+
+#include "Helper.h"
+
 class Tree
 {
 public:

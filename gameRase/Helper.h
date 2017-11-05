@@ -1,7 +1,10 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-
+#include <iostream> 
+#include <cstdlib>
+#include <concrt.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -17,7 +20,7 @@ const int FIELD_LENGHT = 20;
 const int START_X = FIELD_LENGHT-1;
 const int START_Y = FIELD_WIDTH/2;
 
-const int MAX_COUNT_OF_TREES = 2;
+const int MAX_COUNT_OF_TREES = 5;
 
 const int MIN_SPEED = 1;
 const int MAX_SPEED = 9;
@@ -39,13 +42,9 @@ const int START_DISTANCE = -1;
 const int START_DISTANCE2 = 0;
 const int START_TIME = 0;
 
-#include "Car.h"
-#include "Field.h"
+const int TREE_RATIO = 2;
 
-#include <iostream> 
-#include <cstdlib>
-#include <concrt.h>
-#include <conio.h>
+
 
 
 #endif HELPER_H
