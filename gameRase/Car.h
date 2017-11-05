@@ -11,6 +11,7 @@ public:
 	void shiftLeft();
 	void shiftRight();
 	int getCarPos() const;
+	void setStartCarPos();
 private:
 	int x_;
 	int y_;

@@ -4,13 +4,7 @@
 
 Field::Field()
 {
-	for (int i = 0; i < FIELD_LENGHT;i++)
-	{
-		for (int j = 0;j < FIELD_WIDTH;j++)
-		{
-			gameField[i][j] = EMPTY;
-		}
-	}
+	clearGameField();
 	
 	generateNextField();
 }
@@ -55,16 +49,7 @@ int Field::getPoint(int x, int y) const
 
 void Field::generateNextField()
 {
-	level = 0;
-	for (int i = 0; i < FIELD_LENGHT;i++)
-	{
-		for (int j = 0; j < FIELD_WIDTH;j++)
-		{
-			generatedField[i][j] = EMPTY;
-
-		}
-
-	}
+	clearGeneratedField();
 	for (int type = COUNT_TYPES_TREES; type > 0; type--)
 	{
 		for (int k = 0; k < MAX_COUNT_OF_TREES;)
@@ -106,6 +91,30 @@ void Field::setTree(int placeX, int placeY, int sizeX, int sizeY)
 		for (int y = 0; y < sizeY; y++)
 		{
 			generatedField[placeX + x][placeY + y] = TREE;
+		}
+	}
+}
+
+void Field::clearGameField()
+{
+	for (int i = 0; i < FIELD_LENGHT;i++)
+	{
+		for (int j = 0;j < FIELD_WIDTH;j++)
+		{
+			gameField[i][j] = EMPTY;
+		}
+	}
+	
+}
+
+void Field::clearGeneratedField()
+{
+	level = 0;
+	for (int i = 0; i < FIELD_LENGHT;i++)
+	{
+		for (int j = 0; j < FIELD_WIDTH;j++)
+		{
+			generatedField[i][j] = EMPTY;
 		}
 	}
 }

@@ -101,8 +101,13 @@ void GameLogic::endGame()
 	system("cls");
 	printf("GAME OVER\n");
 	gamePrinter1_.printStatus(time_, distance_,points_);
+	printf("Press backspace to restart.\n");
 	do
 	{
+		if (GetAsyncKeyState(VK_BACK))
+		{
+			newGame();
+		}
 	} while (!GetAsyncKeyState(VK_ESCAPE));
 	
 }
@@ -165,6 +170,19 @@ void GameLogic::checkPressKey()
 void GameLogic::countPoints()
 {
 	points_ = 10*distance_ - 5*time_;
+}
+
+void GameLogic::newGame()
+{
+	isGameOver = false;
+	distance_ = START_DISTANCE;
+	distance2_ = START_DISTANCE2;
+	speed_ = START_SPEED;
+	time_ = START_TIME;
+	car1_.setStartCarPos();
+	field1_.clearGameField();
+	system("cls");
+	printGame();
 }
 
 

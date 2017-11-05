@@ -11,7 +11,7 @@ class GameLogic
 public:
 	GameLogic();
 	~GameLogic();
-
+	
 	void pause();
 	void countTime();
 	void generateField();
@@ -25,6 +25,7 @@ public:
 	void shiftRight();
 	void checkPressKey();
 	void countPoints();
+	void newGame();
 private:
 	int speed_;
 	bool isGameOver;

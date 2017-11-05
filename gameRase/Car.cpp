@@ -11,6 +11,7 @@ Car::Car()
 
 Car::~Car()
 {
+	
 }
 
 void Car::shiftLeft()
@@ -26,4 +27,10 @@ void Car::shiftRight()
 int Car::getCarPos() const
 {
 	return y_;
+}
+
+void Car::setStartCarPos()
+{
+	x_ = START_X;
+	y_ = START_Y;
 }
