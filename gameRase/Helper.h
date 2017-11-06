@@ -11,6 +11,7 @@ using namespace std;
 const int TREE = 1;
 const int EMPTY = 0;
 const int CAR = 2;
+const int ENEMY_CAR = 3;
 
 const int ENTER = 13;
 
@@ -24,10 +25,12 @@ const int MAX_COUNT_OF_TREES = 5;
 
 const int MIN_SPEED = 1;
 const int MAX_SPEED = 9;
+const int SPEED_ENEMY_CAR = 2;
 
 const int COUNT_TYPES_TREES = 2;
 
 const int SYMBOL_CAR = 219;
+const int SYMBOL_ENEMY_CAR = 219;//change
 const int SYMBOL_FIELD = 0xb0;
 const int SYMBOL_TREE = 0xb1;
 const int SYMBOL_HIT = 0xcd;
